@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Usuários ────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  phone         String?
+  role          UserRole  @default(CLIENT)
+  passwordHash  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  events        Event[]
+  spotifyToken  SpotifyOAuthToken?
+
+  @@map("users")
+}
+
+enum UserRole {
+  CLIENT
+  CURATOR
+  ADMIN
+}
+
+// ─── Eventos ─────────────────────────────────────────────────────────────────
+
+model Event {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name        String      // "Casamento Ana & Pedro"
+  type        EventType
+  date        DateTime?
+  venueCity   String?
+  guestCount  String?     // "intimate" | "small" | "medium" | "large"
+  status      EventStatus @default(DRAFT)
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  quizSessions       QuizSession[]
+  recommendationCache RecommendationCache?
+
+  @@map("events")
+}
+
+enum EventType {
+  WEDDING
+  CIVIL_WEDDING
+  BIRTHDAY_15
+  BIRTHDAY_ADULT
+  CORPORATE
+  GRADUATION
+  ENGAGEMENT
+  OTHER
+}
+
+enum EventStatus {
+  DRAFT
+  QUIZ_IN_PROGRESS
+  QUIZ_COMPLETE
+  SETLIST_GENERATED
+  CURATOR_REVIEW
+  DELIVERED
+  ARCHIVED
+}
+
+// ─── Quiz ─────────────────────────────────────────────────────────────────────
+
+model QuizSession {
+  id            String      @id @default(cuid())
+  eventId       String?
+  event         Event?      @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  userId        String?
+
+  answers       Json        @default("{}")   // { "B0Q1": "wedding", "B1Q2": ["mpb","jazz"], ... }
+  currentBlock  Int         @default(0)
+  currentQuestion String?
+  profileVector Json?                         // MusicProfileVector calculado
+
+  status        QuizStatus  @default(IN_PROGRESS)
+  completedAt   DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("quiz_sessions")
+}
+
+enum QuizStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+// ─── Cache de Recomendações ───────────────────────────────────────────────────
+
+model RecommendationCache {
+  id            String   @id @default(cuid())
+  eventId       String   @unique
+  event         Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  setlistJson   Json                          // FullSetlist serializado
+  profileHash   String                        // SHA-256 do ProfileVector (para invalidação)
+  generatedAt   DateTime @default(now())
+  expiresAt     DateTime
+
+  @@map("recommendation_cache")
+}
+
+// ─── Banco Curado de Músicas ──────────────────────────────────────────────────
+
+model CuratedTrack {
+  id              String    @id @default(cuid())
+  spotifyId       String    @unique
+  youtubeId       String?
+
+  name            String
+  artist          String
+  albumCover      String?
+  durationMs      Int
+
+  genres          String[]
+  moments         String[]  // ["entrance","ceremony","cocktail","dinner","party","closing"]
+  mood            Json      // { romantic: 0.9, elegant: 0.8, energetic: 0.1, ... }
+  venueTypes      String[]  // ["catholic_church", "outdoor", "hotel_ballroom", ...]
+  religiousLevel  String?   // "sacred" | "neutral" | "secular"
+  language        String    @default("pt") // "pt" | "en" | "es" | "instrumental"
+  era             String?   // "50s_60s" | "70s_80s" | "90s_00s" | "2010s" | "current" | "classical"
+  popularity      Int       @default(50)
+
+  curatorApproved Boolean   @default(false)
+  timesUsed       Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([moments])
+  @@index([genres])
+  @@index([venueTypes])
+  @@map("curated_tracks")
+}
+
+// ─── Spotify OAuth ────────────────────────────────────────────────────────────
+
+model SpotifyOAuthToken {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  accessToken   String
+  refreshToken  String
+  expiresAt     DateTime
+  spotifyUserId String
+  scope         String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("spotify_oauth_tokens")
+}

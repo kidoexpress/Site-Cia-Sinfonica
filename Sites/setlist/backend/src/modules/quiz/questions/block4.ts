@@ -1,0 +1,65 @@
+import type { Question } from "../../../types/quiz.types.js";
+
+export const block4Questions: Question[] = [
+  {
+    id: "B4Q1",
+    block: 4,
+    question: "Qual formação musical você prefere para a cerimônia?",
+    type: "single_choice",
+    options: [
+      { value: "string_quartet",        label: "Quarteto de cordas (2 violinos, viola, celo)" },
+      { value: "piano_solo",            label: "Piano solo" },
+      { value: "piano_violin",          label: "Piano + Violino" },
+      { value: "acoustic_guitar",       label: "Violão solo" },
+      { value: "acoustic_guitar_voice", label: "Violão + Voz" },
+      { value: "flute_piano",           label: "Flauta + Piano" },
+      { value: "harp",                  label: "Harpa" },
+      { value: "choir",                 label: "Coral" },
+      { value: "full_band",             label: "Banda completa" },
+      { value: "recorded",              label: "Música gravada (sistema de som)" },
+      { value: "no_preference",         label: "Sem preferência" },
+    ],
+  },
+  {
+    id: "B4Q2",
+    block: 4,
+    question: "Qual formação musical você prefere para a festa?",
+    type: "single_choice",
+    options: [
+      { value: "dj",           label: "DJ" },
+      { value: "band_5",       label: "Banda completa (5+ músicos)" },
+      { value: "band_trio",    label: "Trio/Quarteto" },
+      { value: "dj_plus_band", label: "DJ + Banda ao vivo" },
+      { value: "samba_pagode", label: "Grupo de pagode/samba" },
+      { value: "forrozeiro",   label: "Banda forró / xote" },
+      { value: "recorded_only",label: "Playlist gravada (sem ao vivo)" },
+      { value: "no_preference",label: "Sem preferência" },
+    ],
+  },
+  {
+    id: "B4Q3",
+    block: 4,
+    question: "Você tem preferência pelo número de vozes / cantores?",
+    type: "single_choice",
+    options: [
+      { value: "solo_female",       label: "Voz solo feminina" },
+      { value: "solo_male",         label: "Voz solo masculina" },
+      { value: "duet",              label: "Dueto (masculino e feminino)" },
+      { value: "choir_voices",      label: "Coral / múltiplas vozes" },
+      { value: "instrumental_only", label: "Prefiro sem voz — só instrumental" },
+      { value: "no_preference",     label: "Sem preferência" },
+    ],
+  },
+  {
+    id: "B4Q4",
+    block: 4,
+    question: "Para a cerimônia, qual é a sua preferência de textura sonora?",
+    type: "single_choice",
+    options: [
+      { value: "sparse_minimal", label: "Minimalista — poucas notas, muito espaço, silêncio intencional" },
+      { value: "warm_intimate",  label: "Quente e intimista — como uma conversa musical" },
+      { value: "full_rich",      label: "Pleno e rico — cheio, harmônico, impactante" },
+      { value: "grand_orchestral",label: "Grandioso — como uma trilha de filme" },
+    ],
+  },
+];
