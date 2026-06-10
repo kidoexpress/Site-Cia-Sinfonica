@@ -1,134 +1,87 @@
 "use client";
-
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-
-const testimonials = [
-  {
-    name: "Fernanda & André",
-    event: "Casamento · São Paulo",
-    initials: "FA",
-    color: "#C9A96E",
-    rating: 5,
-    quote:
-      "Chorei quando ouvi o repertório pela primeira vez. Cada música era perfeita para o momento — era como se o curador nos conhecesse de verdade. A cerimônia ficou exatamente como sonhamos.",
-  },
-  {
-    name: "Camila Rodrigues",
-    event: "Festa de 30 anos · Rio de Janeiro",
-    initials: "CR",
-    color: "#A8854F",
-    rating: 5,
-    quote:
-      "Nunca imaginei que montar um playlist poderia ser tão especial. O processo foi incrível: as perguntas me fizeram pensar em memórias que eu tinha esquecido. A festa foi um sucesso total.",
-  },
-  {
-    name: "Lucas & Beatriz",
-    event: "Casamento · Belo Horizonte",
-    initials: "LB",
-    color: "#977650",
-    rating: 5,
-    quote:
-      "Contratamos o plano Plus e foi o melhor investimento do casamento. O curador sugeriu músicas que nem estavam na nossa lista mas ficaram perfeitas. Até hoje os convidados perguntam sobre a playlist.",
-  },
-  {
-    name: "Marina Alves",
-    event: "Formatura de Medicina · Curitiba",
-    initials: "MA",
-    color: "#B8906A",
-    rating: 5,
-    quote:
-      "Seis anos de faculdade mereciam uma festa à altura. O repertório capturou exatamente o espírito da nossa turma — desde a cerimônia solene até a festa que durou até de manhã.",
-  },
-];
+import { useState, useEffect, useCallback } from "react";
+import { useLang, UI, pick } from "./lang-context";
+import { TESTIMONIALS } from "./cs-data";
+import { Reveal } from "./cs-reveal";
+import { Star } from "./cs-icons";
 
 export function Testimonials() {
-  const [current, setCurrent] = useState(0);
+  const { lang } = useLang();
+  const u = UI[lang].testi;
+  const [i, setI] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const n = TESTIMONIALS.length;
+  const t = TESTIMONIALS[i];
 
-  const prev = () => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
-  const next = () => setCurrent((c) => (c + 1) % testimonials.length);
+  const go = useCallback((d: number) => setI((p) => (p + d + n) % n), [n]);
 
-  const t = testimonials[current];
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setI((p) => (p + 1) % n), 6500);
+    return () => clearInterval(id);
+  }, [paused, n]);
 
   return (
-    <section className="py-24 lg:py-32" style={{ background: "#FAF7F2" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <span className="text-xs uppercase tracking-widest text-[#C9A96E] font-medium">
-            Depoimentos
-          </span>
-          <h2
-            className="mt-3 text-4xl lg:text-5xl text-[#1A1A1A]"
-            style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-          >
-            Quem confiou, se emocionou
-          </h2>
+    <section
+      className="section-pad testi"
+      id="testi"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="wrap">
+        <div className="testi-head">
+          <Reveal><div className="eyebrow">{u.eyebrow}</div></Reveal>
+          <Reveal delay={80} as="h2" className="display">{u.title}</Reveal>
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-3xl p-10 lg:p-14 shadow-sm border border-[#F5E6D3] text-center">
-            {/* Stars */}
-            <div className="flex justify-center gap-1 mb-8">
-              {Array.from({ length: t.rating }).map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-[#C9A96E] text-[#C9A96E]" />
-              ))}
+        <Reveal delay={120} className="testi-stage">
+          <div className="testi-quotemark" aria-hidden="true">&ldquo;</div>
+          <div className="testi-main" key={i}>
+            <div className="testi-stars" aria-label={`${t.rating} out of 5`}>
+              {Array.from({ length: t.rating }).map((_, k) => <Star key={k} s={14} />)}
+              <span className="testi-pkg">{pick(t.moment, lang)}</span>
             </div>
-
-            {/* Quote */}
-            <blockquote
-              className="text-xl lg:text-2xl text-[#1A1A1A] leading-relaxed mb-8 text-balance"
-              style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            >
-              &ldquo;{t.quote}&rdquo;
-            </blockquote>
-
-            {/* Avatar + name */}
-            <div className="flex items-center justify-center gap-3">
-              <div
-                className="w-11 h-11 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                style={{ background: t.color }}
-              >
-                {t.initials}
-              </div>
-              <div className="text-left">
-                <p className="text-sm font-semibold text-[#1A1A1A]">{t.name}</p>
-                <p className="text-xs text-[#8A7F72]">{t.event}</p>
+            <blockquote className="testi-quote">{pick(t.quote, lang)}</blockquote>
+            <div className="testi-by">
+              <div className="testi-avatar">{t.initials}</div>
+              <div className="testi-byinfo">
+                <div className="testi-name">{t.name}</div>
+                <div className="testi-meta">{pick(t.meta, lang)}</div>
               </div>
             </div>
           </div>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <button
-              onClick={prev}
-              className="w-10 h-10 rounded-full border border-[#F5E6D3] bg-white flex items-center justify-center hover:border-[#C9A96E] transition-colors"
-              aria-label="Anterior"
-            >
-              <ChevronLeft className="w-4 h-4 text-[#8A7F72]" />
-            </button>
-
-            <div className="flex gap-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrent(i)}
-                  className={`h-2 rounded-full transition-all ${
-                    i === current ? "w-6 bg-[#C9A96E]" : "w-2 bg-[#F5E6D3]"
-                  }`}
-                  aria-label={`Depoimento ${i + 1}`}
-                />
-              ))}
+          <div className="testi-controls">
+            <div className="testi-nav">
+              <button className="testi-arrow" onClick={() => go(-1)} aria-label={u.prev}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M13 8H4M7.5 4l-4 4 4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+              <span className="testi-count">{String(i + 1).padStart(2, "0")} <i>/ {String(n).padStart(2, "0")}</i></span>
+              <button className="testi-arrow" onClick={() => go(1)} aria-label={u.next}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
             </div>
-
-            <button
-              onClick={next}
-              className="w-10 h-10 rounded-full border border-[#F5E6D3] bg-white flex items-center justify-center hover:border-[#C9A96E] transition-colors"
-              aria-label="Próximo"
-            >
-              <ChevronRight className="w-4 h-4 text-[#8A7F72]" />
-            </button>
           </div>
-        </div>
+        </Reveal>
+
+        <Reveal delay={160} className="testi-people">
+          {TESTIMONIALS.map((p, k) => (
+            <button key={p.name} className={`testi-person${k === i ? " on" : ""}`} onClick={() => setI(k)}>
+              <span className="testi-person-av">{p.initials}</span>
+              <span className="testi-person-info">
+                <span className="testi-person-name">{p.name}</span>
+                <span className="testi-person-meta">{pick(p.meta, lang)}</span>
+              </span>
+              <span className="testi-person-bar">
+                <i style={{ animationPlayState: (k === i && !paused) ? "running" : "paused" }} />
+              </span>
+            </button>
+          ))}
+        </Reveal>
       </div>
     </section>
   );
