@@ -124,3 +124,24 @@ export const TESTIMONIALS = [
   { quote: { pt: "A experiência de fornecedor mais elegante de todo o casamento. Calmos, confiantes e silenciosamente brilhantes do início ao fim.", en: "The most elegant vendor experience of the entire wedding. Calm, confident, and quietly brilliant from start to finish." },
     name: "Marina & Pedro", meta: { pt: "Cerimônia litorânea", en: "Coastal ceremony" }, initials: "MP", rating: 5, moment: { pt: "Premium", en: "Premium" } },
 ];
+
+export const TESTI_COLUMNS = [
+  { initials: "HM", name: "Helena & Marcos", role: { pt: "Cerimônia · São Paulo", en: "Ceremony · São Paulo" },
+    text: { pt: "Entenderam o sentimento do nosso dia e construíram o som ao redor dele. Todos os convidados comentaram a música.", en: "They understood the feeling of our day and built the sound around it. Every guest mentioned the music." } },
+  { initials: "BT", name: "Beatriz & Tomás", role: { pt: "Ao ar livre · Campinas", en: "Garden · Campinas" },
+    text: { pt: "O arranjo de entrada foi escrito para nós. Quando a orquestra cresceu, minha mãe chorou antes do altar.", en: "The entrance arrangement was written for us. When the ensemble swelled, my mother cried before the aisle." } },
+  { initials: "CA", name: "Carolina & André", role: { pt: "Salão Ateliê", en: "Atelier Hall" },
+    text: { pt: "Cada deixa caiu no segundo certo e, ainda assim, nunca pareceu mecânico — pareceu profundamente humano.", en: "Every cue landed to the second, and yet it never felt mechanical — it felt deeply human." } },
+  { initials: "JR", name: "Júlia & Rafael", role: { pt: "Vinícola", en: "Vineyard estate" },
+    text: { pt: "Transformaram centenas de opções em um único programa perfeito. Estávamos perdidos até a primeira consultoria.", en: "They turned hundreds of options into one perfect programme. We were lost until the first consultation." } },
+  { initials: "MP", name: "Marina & Pedro", role: { pt: "Cerimônia litorânea", en: "Coastal ceremony" },
+    text: { pt: "A experiência de fornecedor mais elegante de todo o casamento. Calmos, confiantes e silenciosamente brilhantes.", en: "The most elegant vendor experience of the wedding. Calm, confident and quietly brilliant." } },
+  { initials: "LF", name: "Larissa & Felipe", role: { pt: "Capela · Itu", en: "Chapel · Itu" },
+    text: { pt: "A trilha da cerimônia parecia inevitável, como se nenhuma outra música pudesse existir naquele momento.", en: "The ceremony's soundtrack felt inevitable, as if no other music could have existed in that moment." } },
+  { initials: "GC", name: "Gabriela & Caio", role: { pt: "Fazenda · Sorocaba", en: "Estate · Sorocaba" },
+    text: { pt: "Profissionalismo absoluto. Os ensaios anteciparam cada transição — no dia, tudo fluiu sem um único tropeço.", en: "Absolute professionalism. The rehearsals anticipated every transition — on the day, everything flowed flawlessly." } },
+  { initials: "VR", name: "Vitória & Rodrigo", role: { pt: "Hotel · São Paulo", en: "Hotel · São Paulo" },
+    text: { pt: "O coquetel virou um show de jazz íntimo. Os convidados ficaram dançando muito além do esperado.", en: "The cocktail hour turned into an intimate jazz set. Guests danced far longer than we ever expected." } },
+  { initials: "IN", name: "Isabela & Nicolas", role: { pt: "Igreja · Campos do Jordão", en: "Church · Campos do Jordão" },
+    text: { pt: "Cordas sob os votos, metais na saída. A curva emocional foi desenhada com uma precisão que ainda me emociona.", en: "Strings under the vows, brass at the exit. The emotional arc was designed with a precision that still moves me." } },
+];

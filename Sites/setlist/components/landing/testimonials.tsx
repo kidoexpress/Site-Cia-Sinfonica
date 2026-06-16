@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { useLang, UI, pick } from "./lang-context";
-import { TESTIMONIALS } from "./cs-data";
+import { TESTIMONIALS, TESTI_COLUMNS } from "./cs-data";
 import { Reveal } from "./cs-reveal";
 import { Star } from "./cs-icons";
+import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 
 export function Testimonials() {
   const { lang } = useLang();
@@ -82,7 +83,32 @@ export function Testimonials() {
             </button>
           ))}
         </Reveal>
+
+        <TestimonialsColumnsBlock />
       </div>
     </section>
+  );
+}
+
+function TestimonialsColumnsBlock() {
+  const { lang } = useLang();
+  const cols = TESTI_COLUMNS.map((t) => ({
+    text: pick(t.text, lang),
+    name: t.name,
+    role: pick(t.role, lang),
+    initials: t.initials,
+  }));
+  const firstColumn = cols.slice(0, 3);
+  const secondColumn = cols.slice(3, 6);
+  const thirdColumn = cols.slice(6, 9);
+
+  return (
+    <Reveal delay={120} style={{ marginTop: "clamp(56px, 7vw, 96px)" }}>
+      <div className="testi-cols-grid">
+        <TestimonialsColumn testimonials={firstColumn} duration={15} />
+        <TestimonialsColumn testimonials={secondColumn} className="testi-cols-col-2" duration={19} />
+        <TestimonialsColumn testimonials={thirdColumn} className="testi-cols-col-3" duration={17} />
+      </div>
+    </Reveal>
   );
 }
