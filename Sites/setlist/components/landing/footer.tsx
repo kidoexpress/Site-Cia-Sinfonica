@@ -1,15 +1,11 @@
 "use client";
 import { useLang, UI } from "./lang-context";
-import { Mark } from "./cs-icons";
+import { Logo } from "@/components/ui/logo";
 
 function Wordmark() {
   return (
-    <a href="#top" className="brand" aria-label="Cia. Sinfônica">
-      <Mark s={30} color="var(--on-dark)" />
-      <span className="brand-text" style={{ color: "var(--on-dark)" }}>
-        <strong>Cia. Sinfônica</strong>
-        <em>Produção Musical</em>
-      </span>
+    <a href="#top" className="brand" aria-label="Cia. Sinfônica — Produção Musical">
+      <Logo variant="light" width={96} />
     </a>
   );
 }

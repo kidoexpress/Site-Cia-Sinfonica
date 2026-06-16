@@ -511,6 +511,9 @@
 @media (max-width: 1080px) { .testi-cols-col-2 { display: none; } }
 @media (max-width: 760px)  { .testi-cols-col-3 { display: none; } }
 
+/* ============ STUDIO ============ */
+@media (max-width: 560px) { .studio-nav-label { display: none; } }
+
 /* ============ FINAL CTA ============ */
 .finalcta { padding-block: clamp(110px, 14vw, 200px); text-align: center; position: relative; overflow: hidden; }
 .finalcta-grain { position: absolute; inset: 0; opacity: .5; pointer-events: none; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.04) 1px, transparent 0); background-size: 3px 3px; }

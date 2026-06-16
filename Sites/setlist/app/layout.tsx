@@ -10,13 +10,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Setlist — Curadoria Musical para Casamentos e Festas",
+  title: "Cia. Sinfônica — Consultoria Musical para Casamentos de Alto Padrão",
   description:
-    "Repertório musical personalizado para o dia mais especial da sua vida. Casamentos, aniversários, formaturas e eventos corporativos.",
-  keywords: ["curadoria musical", "repertório casamento", "músicas casamento", "DJ casamento"],
+    "Ajudamos casais a desenhar a experiência musical do seu casamento — composta, curada e executada ao vivo, com precisão absoluta.",
+  keywords: ["consultoria musical casamento", "orquestra casamento", "curadoria musical casamento", "música cerimônia"],
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
-    title: "Setlist — Curadoria Musical para Casamentos e Festas",
-    description: "Seu casamento merece uma trilha sonora tão única quanto vocês.",
+    title: "Cia. Sinfônica — Consultoria Musical para Casamentos",
+    description: "Cada momento inesquecível merece a trilha sonora certa.",
     type: "website",
   },
 };

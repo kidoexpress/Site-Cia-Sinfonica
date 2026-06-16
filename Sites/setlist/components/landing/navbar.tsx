@@ -1,16 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useLang, UI, LangToggle } from "./lang-context";
-import { Mark, Arrow } from "./cs-icons";
+import { Arrow } from "./cs-icons";
+import { Logo } from "@/components/ui/logo";
 
 function Wordmark({ dark = false }: { dark?: boolean }) {
   return (
-    <a href="#top" className="brand" aria-label="Cia. Sinfônica">
-      <Mark s={30} color={dark ? "var(--on-dark)" : "var(--ink)"} />
-      <span className="brand-text" style={{ color: dark ? "var(--on-dark)" : "var(--ink)" }}>
-        <strong>Cia. Sinfônica</strong>
-        <em>Produção Musical</em>
-      </span>
+    <a href="#top" className="brand" aria-label="Cia. Sinfônica — Produção Musical">
+      <Logo variant={dark ? "light" : "dark"} width={58} priority />
     </a>
   );
 }
@@ -45,7 +42,7 @@ export function Navbar() {
         </nav>
         <div className="nav-right">
           <LangToggle solid={scrolled} />
-          <a href="#contact" className="nav-cta">{u.cta} <Arrow s={14} /></a>
+          <a href="/studio" className="nav-cta">{u.cta} <Arrow s={14} /></a>
         </div>
       </div>
     </header>

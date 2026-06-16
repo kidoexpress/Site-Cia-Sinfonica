@@ -28,7 +28,7 @@ export function Hero() {
         </h1>
         <p className="hero-sub">{u.sub}</p>
         <div className="hero-actions">
-          <a href="#contact" className="btn btn--on-dark">{u.cta1} <Arrow /></a>
+          <a href="/studio" className="btn btn--on-dark">{u.cta1} <Arrow /></a>
           <a href="#how" className="btn btn--on-dark-ghost"><Play /> {u.cta2}</a>
         </div>
       </div>
