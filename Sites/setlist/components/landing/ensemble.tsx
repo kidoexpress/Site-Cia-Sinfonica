@@ -16,11 +16,11 @@ export function Ensemble() {
         </div>
         <div className="ens-grid">
           <Reveal className="ens-fig ens-fig--lg" as="figure">
-            <Image src="/stage.png" alt="Cia. Sinfônica — apresentação ao vivo" fill sizes="(max-width:1080px) 100vw, 57vw" loading="lazy" style={{ objectFit: "cover" }} />
+            <Image src="/stage.webp" alt="Cia. Sinfônica — apresentação ao vivo" fill sizes="(max-width:1080px) 100vw, 57vw" loading="lazy" style={{ objectFit: "cover" }} />
             <figcaption>{u.stageCap}</figcaption>
           </Reveal>
           <Reveal delay={120} className="ens-fig" as="figure">
-            <Image src="/team.png" alt="Time da Cia. Sinfônica" fill sizes="(max-width:1080px) 100vw, 43vw" loading="lazy" style={{ objectFit: "cover" }} />
+            <Image src="/team.webp" alt="Time da Cia. Sinfônica" fill sizes="(max-width:1080px) 100vw, 43vw" loading="lazy" style={{ objectFit: "cover" }} />
             <figcaption>{u.teamCap}</figcaption>
           </Reveal>
         </div>

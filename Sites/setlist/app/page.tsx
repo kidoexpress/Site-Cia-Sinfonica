@@ -29,7 +29,7 @@ export default function HomePage() {
     <LangProvider>
       <div className="cs-root">
         <Navbar />
-        <main>
+        <main id="main-content">
           <Hero />
           <Stats />
           <Problem />

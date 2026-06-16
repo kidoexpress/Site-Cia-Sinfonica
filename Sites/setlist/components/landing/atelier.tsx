@@ -13,7 +13,7 @@ export function Atelier() {
   return (
     <section className="atelier dark" id="atelier">
       <div className="atelier-media">
-        <Image src="/facade.png" alt="O ateliê da Cia. Sinfônica — estúdio de produção e sala de ensaio" fill style={{ objectFit: "cover", objectPosition: "center 60%" }} />
+        <Image src="/facade.webp" alt="O ateliê da Cia. Sinfônica — estúdio de produção e sala de ensaio" fill style={{ objectFit: "cover", objectPosition: "center 60%" }} />
         <div className="atelier-scrim" />
       </div>
       <div className="wrap atelier-content">

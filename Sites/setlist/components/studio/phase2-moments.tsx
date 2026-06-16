@@ -3,14 +3,22 @@ import { useState } from "react";
 import { MomentConfig, ALL_MOMENTS, MOMENT_TONES } from "./types";
 import { PhaseHeader } from "./fields";
 
+export interface ActiveMoment {
+  id: string;
+  label: string;
+  tone: string;
+  songRequest: string;
+}
+
 export function Phase2Moments({ onNext, onBack }: {
-  onNext: (data: Record<string, MomentConfig>) => void;
+  onNext: (data: Record<string, MomentConfig>, activeList: ActiveMoment[]) => void;
   onBack: () => void;
 }) {
   const [moments, setMoments] = useState<Record<string, MomentConfig>>(
     Object.fromEntries(ALL_MOMENTS.map((m) => [m.id, { active: m.defaultOn, tone: "", songRequest: "" }]))
   );
   const [expanded, setExpanded] = useState<string | null>("entrance_bride");
+  const [submitting, setSubmitting] = useState(false);
 
   const toggle = (id: string) =>
     setMoments((prev) => ({ ...prev, [id]: { ...prev[id], active: !prev[id].active } }));
@@ -19,6 +27,20 @@ export function Phase2Moments({ onNext, onBack }: {
     setMoments((prev) => ({ ...prev, [id]: { ...prev[id], [key]: val } }));
 
   const activeCount = Object.values(moments).filter((m) => m.active).length;
+
+  const handleNext = () => {
+    if (activeCount === 0 || submitting) return;
+    setSubmitting(true);
+    const activeList: ActiveMoment[] = ALL_MOMENTS
+      .filter((m) => moments[m.id]?.active)
+      .map((m) => ({
+        id: m.id,
+        label: m.label,
+        tone: moments[m.id].tone,
+        songRequest: moments[m.id].songRequest,
+      }));
+    onNext(moments, activeList);
+  };
 
   return (
     <div style={{ maxWidth: 720, margin: "0 auto", padding: "120px clamp(20px, 4vw, 60px) 80px" }}>
@@ -125,15 +147,22 @@ export function Phase2Moments({ onNext, onBack }: {
             style={{ height: 52, padding: "0 24px", borderRadius: 100, border: "1px solid var(--line-dark)", background: "transparent", color: "var(--on-dark-2)", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
             ← Voltar
           </button>
-          <button onClick={() => onNext(moments)} disabled={activeCount === 0}
+          <button onClick={handleNext} disabled={activeCount === 0 || submitting}
             style={{
               height: 52, padding: "0 32px", borderRadius: 100,
               background: activeCount > 0 ? "var(--ivory)" : "rgba(255,255,255,.1)",
               color: activeCount > 0 ? "var(--ink)" : "var(--on-dark-3)",
               fontSize: 15, fontWeight: 600, border: "none",
-              cursor: activeCount > 0 ? "pointer" : "not-allowed", transition: "all .35s", fontFamily: "inherit",
+              cursor: activeCount > 0 && !submitting ? "pointer" : "not-allowed",
+              transition: "all .35s", fontFamily: "inherit",
+              display: "inline-flex", alignItems: "center", gap: 10,
             }}>
-            Ver sugestões de repertório →
+            {submitting ? (
+              <>
+                <span style={{ width: 16, height: 16, borderRadius: "50%", border: "2px solid rgba(15,17,21,.3)", borderTopColor: "var(--ink)", display: "inline-block", animation: "spin .7s linear infinite" }} />
+                Consultando o curador...
+              </>
+            ) : "Ver sugestões de repertório →"}
           </button>
         </div>
       </div>

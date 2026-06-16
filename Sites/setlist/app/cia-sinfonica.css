@@ -47,6 +47,14 @@
 
 .cs-root ::selection { background: var(--gold); color: var(--charcoal); }
 
+.cs-skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 9999;
+  background: var(--gold); color: var(--charcoal);
+  padding: 12px 20px; border-radius: 0 0 8px 0; font-weight: 600; font-size: 14px;
+  font-family: var(--sans);
+}
+.cs-skip-link:focus { left: 0; }
+
 /* ---- shared atoms ---- */
 .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
 
@@ -513,6 +521,73 @@
 
 /* ============ STUDIO ============ */
 @media (max-width: 560px) { .studio-nav-label { display: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============ HISTÓRIA (página) ============ */
+.hist-hero { position: relative; min-height: 78vh; display: flex; align-items: flex-end; overflow: hidden; background: var(--charcoal); }
+.hist-hero-media { position: absolute; inset: 0; z-index: 0; }
+.hist-hero-media img { animation: heroZoom 18s cubic-bezier(.16,1,.3,1) forwards; }
+.hist-hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,17,21,.7) 0%, rgba(15,17,21,.25) 38%, rgba(15,17,21,.55) 72%, rgba(15,17,21,.92) 100%); }
+.hist-hero-inner { position: relative; z-index: 2; padding-block: 0 clamp(56px, 7vw, 96px); padding-top: 160px; }
+.hist-hero-title { font-size: clamp(38px, 6vw, 82px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.0; color: #fff; margin-top: 24px; }
+.hist-hero-lead { margin-top: 26px; max-width: 56ch; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.6; color: rgba(242,240,235,.78); }
+
+.hist-intro { background: var(--ivory); }
+.hist-lead-big { font-size: clamp(22px, 2.8vw, 36px); font-weight: 500; letter-spacing: -0.025em; line-height: 1.4; color: var(--ink); max-width: 24ch; text-wrap: balance; }
+.hist-lead-big.reveal { max-width: 26ch; }
+.hist-intro .wrap { max-width: 1000px; }
+.hist-intro .hist-lead-big { max-width: 30ch; font-size: clamp(22px, 2.6vw, 34px); }
+
+.hist-section-head { max-width: 760px; margin-bottom: clamp(48px, 6vw, 80px); display: flex; flex-direction: column; gap: 22px; }
+
+.hist-timeline { overflow: hidden; }
+.hist-tl { display: flex; flex-direction: column; }
+.hist-tl-item { display: grid; grid-template-columns: 140px 1fr; gap: clamp(20px, 4vw, 56px); padding-block: 30px; border-top: 1px solid var(--line-dark); }
+.hist-tl-item:last-child { border-bottom: 1px solid var(--line-dark); }
+.hist-tl-year { font-size: clamp(22px, 2.4vw, 30px); font-weight: 600; letter-spacing: -0.03em; color: var(--gold-soft); }
+.hist-tl-body { position: relative; padding-left: 28px; }
+.hist-tl-dot { position: absolute; left: 0; top: 7px; width: 11px; height: 11px; border-radius: 50%; background: var(--charcoal); border: 1px solid var(--gold); }
+.hist-tl-dot::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--gold); }
+.hist-tl-title { font-size: 21px; font-weight: 600; letter-spacing: -0.02em; color: #fff; }
+.hist-tl-text { margin-top: 12px; font-size: 16px; line-height: 1.65; color: var(--on-dark-2); max-width: 56ch; }
+
+.hist-philo { background: var(--stone); }
+.hist-philo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.hist-philo-card { background: var(--ivory); border-radius: var(--radius-lg); padding: 40px 34px 44px; border: 1px solid rgba(255,255,255,.6); box-shadow: 0 1px 2px rgba(15,17,21,.04), 0 24px 48px -30px rgba(15,17,21,.22); }
+.hist-philo-k { font-size: 13px; font-weight: 600; letter-spacing: .14em; color: var(--gold); }
+.hist-philo-t { font-size: 24px; font-weight: 600; letter-spacing: -0.025em; margin-top: 22px; }
+.hist-philo-d { margin-top: 14px; font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); }
+
+.hist-quote { padding-block: clamp(90px, 11vw, 150px); text-align: center; }
+.hist-quote-text { font-size: clamp(26px, 3.6vw, 46px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.3; color: #fff; max-width: 22ch; margin: 0 auto; text-wrap: balance; }
+.hist-quote-by { margin-top: 30px; font-size: 12.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-soft); }
+
+.hist-stats { background: var(--ivory); }
+.hist-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border-block: 1px solid var(--line); }
+.hist-stat { background: var(--ivory); padding: 40px 24px; text-align: center; }
+.hist-stat-value { font-size: clamp(38px, 4.5vw, 58px); font-weight: 500; letter-spacing: -0.04em; line-height: 1; color: var(--ink); }
+.hist-stat-label { margin-top: 12px; font-size: 13.5px; color: var(--ink-soft); }
+
+.hist-team { background: var(--ivory); padding-bottom: clamp(40px, 5vw, 80px); }
+.hist-team-fig { position: relative; margin: 0; height: clamp(340px, 50vw, 600px); overflow: hidden; }
+.hist-team-fig img { transition: transform 1.4s var(--ease-out); }
+.hist-team-fig:hover img { transform: scale(1.04); }
+.hist-team-fig figcaption { position: absolute; inset: auto 0 0 0; padding: 80px clamp(24px, 5vw, 80px) 36px; font-size: 14px; color: #fff; background: linear-gradient(0deg, rgba(15,17,21,.8) 0%, rgba(15,17,21,.2) 60%, transparent 100%); }
+
+.hist-faq { background: var(--ivory); }
+.hist-faq-head { max-width: 720px; margin-inline: auto; text-align: center; align-items: center; }
+.hist-faq-head .eyebrow { justify-content: center; }
+
+@media (max-width: 1080px) {
+  .hist-philo-grid { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
+  .hist-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .hist-tl-item { grid-template-columns: 1fr; gap: 6px; }
+  .hist-stats-grid { grid-template-columns: 1fr; }
+}
 
 /* ============ FINAL CTA ============ */
 .finalcta { padding-block: clamp(110px, 14vw, 200px); text-align: center; position: relative; overflow: hidden; }

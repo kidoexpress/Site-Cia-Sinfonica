@@ -11,7 +11,7 @@ export function Hero() {
     <section className="hero" id="top">
       <div className="hero-media">
         <Image
-          src="/hero-facade.png"
+          src="/hero-facade.webp"
           alt="Fachada da Cia. Sinfônica — Produção Musical"
           fill
           priority

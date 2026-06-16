@@ -3,8 +3,9 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { StudioNav } from "@/components/studio/studio-nav";
 import { Phase1Profile } from "@/components/studio/phase1-profile";
-import { Phase2Moments } from "@/components/studio/phase2-moments";
+import { Phase2Moments, type ActiveMoment } from "@/components/studio/phase2-moments";
 import { Phase3Results } from "@/components/studio/phase3-results";
+import { useMusicSuggestions } from "@/hooks/useMusicSuggestions";
 import type { Phase1Data, MomentConfig } from "@/components/studio/types";
 
 type Phase = 1 | 2 | 3;
@@ -12,7 +13,16 @@ type Phase = 1 | 2 | 3;
 export default function StudioPage() {
   const [phase, setPhase] = useState<Phase>(1);
   const [profileData, setProfileData] = useState<Phase1Data | null>(null);
-  const [momentsData, setMomentsData] = useState<Record<string, MomentConfig> | null>(null);
+  const [, setMomentsData] = useState<Record<string, MomentConfig> | null>(null);
+  const { suggest, status, results, error } = useMusicSuggestions();
+
+  const handlePhase2Next = (moments: Record<string, MomentConfig>, activeList: ActiveMoment[]) => {
+    setMomentsData(moments);
+    // Dispara a IA enquanto a transição acontece; a Fase 3 mostra o loading.
+    suggest(profileData, activeList);
+    setPhase(3);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <>
@@ -32,14 +42,16 @@ export default function StudioPage() {
           )}
           {phase === 2 && (
             <Phase2Moments
-              onNext={(data) => { setMomentsData(data); setPhase(3); window.scrollTo(0, 0); }}
+              onNext={handlePhase2Next}
               onBack={() => { setPhase(1); window.scrollTo(0, 0); }}
             />
           )}
-          {phase === 3 && profileData && momentsData && (
+          {phase === 3 && (
             <Phase3Results
               profile={profileData}
-              moments={momentsData}
+              aiStatus={status}
+              aiResults={results}
+              aiError={error}
               onBack={() => { setPhase(2); window.scrollTo(0, 0); }}
             />
           )}
